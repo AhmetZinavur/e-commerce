@@ -45,13 +45,13 @@ public class UserController {
     }
 
     @PutMapping("/update-customer")
-    public void updateCustomer(@RequestBody CustomerUpdateRequest customer) {
-        userService.updateCustomer(customer);
+    public void updateCustomer(String token, @RequestBody CustomerUpdateRequest customer) {
+        userService.updateCustomer(token, customer);
     }
 
     @PutMapping("/update-admin")
-    public void updateAdmin(@RequestBody AdminUpdateRequest admin) {
-        userService.updateAdmin(admin);
+    public void updateAdmin(String token, @RequestBody AdminUpdateRequest admin) {
+        userService.updateAdmin(token, admin);
     }
 
     @PostMapping("/login")

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mycompany.e_commerce.dto.request.admin.AddNewStoreAdminRequest;
 import com.mycompany.e_commerce.dto.request.product.AddNewProductRequest;
 import com.mycompany.e_commerce.dto.request.product.UpdateProductNameRequest;
 import com.mycompany.e_commerce.dto.request.product.UpdateProductPriceRequest;
@@ -14,6 +15,8 @@ import com.mycompany.e_commerce.entity.Store;
 import com.mycompany.e_commerce.service.StoreService;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -27,6 +30,16 @@ public class StoreController {
     @PostMapping("/create-store")
     public void createStore(String token, AddNewStoreRequest store) {
         storeService.createStore(token, store);
+    }
+
+    @PostMapping("/create-store-for-admin")
+    public void createStoreForAdmin(String token, AddNewStoreAdminRequest store) {
+        storeService.createStoreForAdmin(token, store);
+    }
+
+    @DeleteMapping("/delete-store-for-admin")
+    public void deleteStoreForAdmin(String token, @RequestParam Long storeId) {
+        storeService.deleteStoreForAdmin(token, storeId);
     }
 
     @PostMapping("/add-product")

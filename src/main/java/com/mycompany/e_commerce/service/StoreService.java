@@ -9,6 +9,7 @@ import com.mycompany.e_commerce.dto.request.product.UpdateProductNameRequest;
 import com.mycompany.e_commerce.dto.request.product.UpdateProductPriceRequest;
 import com.mycompany.e_commerce.dto.request.product.UpdateProductStockRequest;
 import com.mycompany.e_commerce.dto.request.store.AddNewStoreRequest;
+import com.mycompany.e_commerce.dto.request.admin.AddNewStoreAdminRequest;
 import com.mycompany.e_commerce.entity.Product;
 import com.mycompany.e_commerce.entity.Store;
 import com.mycompany.e_commerce.entity.User;
@@ -16,6 +17,7 @@ import com.mycompany.e_commerce.entity.enums.Role;
 import com.mycompany.e_commerce.exception.customexception.CustomeException;
 import com.mycompany.e_commerce.exception.customexception.StoreNotFondException;
 import com.mycompany.e_commerce.exception.customexception.TokenInvalidException;
+import com.mycompany.e_commerce.exception.customexception.UnauthorizedAccessException;
 import com.mycompany.e_commerce.repository.StoreRepository;
 import com.mycompany.e_commerce.security.JWTManager;
 
@@ -35,9 +37,33 @@ public class StoreService {
     public void createStore(String token, AddNewStoreRequest store) {
         storeRepository.save(Store.builder()
                 .name(store.getName())
-                .user(userService.getUserById(jwtManager.validToken(token).orElse(null)))
+                .user(userService.getUserById(getUserIdFromToken(token)))
                 .createAt(LocalDateTime.now().toString())
                 .build());
+    }
+
+    @Transactional
+    public void createStoreForAdmin(String token, AddNewStoreAdminRequest store) {
+        User user = userService.getUserById(getUserIdFromToken(token));
+        User storeOwner = userService.getUserById(store.getStoreOwnerId());
+        if (user.getRole().equals(Role.ADMIN.toString())) {
+            storeRepository.save(Store.builder()
+                    .name(store.getName())
+                    .user(storeOwner)
+                    .createAt(LocalDateTime.now().toString())
+                    .build());
+        }
+    }
+
+    @Transactional
+    public void deleteStoreForAdmin(String token, Long storeId) {
+        User user = userService.getUserById(getUserIdFromToken(token));
+        if (user.getRole().equals(Role.ADMIN.toString())) {
+            storeRepository.deleteById(storeId);
+        } else {
+            // return error
+            throw new UnauthorizedAccessException(CustomeException.UNAUTHORIZED_ACCESS);
+        }
     }
 
     protected Store getStoreById(Long storeId) {
