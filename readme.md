@@ -89,6 +89,8 @@ This is a demo project for an e-commerce application built using Spring Boot. Th
 - **Update Product Price**: `PUT /stores/update-product-price`
 - **Update Product Stock**: `PUT /stores/update-product-stock`
 - **Get Store Info for Admin**: `GET /stores/get-store-info-for-admin`
+- **Create Store For Admin**: 'POST /stores/create-store-for-admin'
+- **Delete Store For Admin**: 'DELETE /stores/delete-store-for-admin'
 - **Approve Order**: `PUT /stores/approve-order`
 
 ## Configuration
