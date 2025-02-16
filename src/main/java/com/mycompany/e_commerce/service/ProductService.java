@@ -2,9 +2,11 @@ package com.mycompany.e_commerce.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.mycompany.e_commerce.dto.response.product.ProductListResponse;
 import com.mycompany.e_commerce.entity.Product;
 import com.mycompany.e_commerce.repository.ProductRepository;
 
@@ -25,8 +27,16 @@ public class ProductService {
         return productRepository.findById(id).orElse(null);
     }
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<ProductListResponse> getAllProducts() {
+        return productRepository.findAll().stream()
+        .map(product -> ProductListResponse.builder()
+            .id(product.getId())
+            .name(product.getName())
+            .price(product.getPrice())
+            .stock(product.getStock())
+            .storeName(product.getStore().getName())
+            .build())
+        .collect(Collectors.toList());
     }
 
     @Transactional

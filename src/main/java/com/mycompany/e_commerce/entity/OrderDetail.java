@@ -37,6 +37,6 @@ public class OrderDetail {
     @JsonBackReference
     private Store store;
     private int quantity;
-    private Double price;
+    private Double unitPrice;
     private String createAt;
 }

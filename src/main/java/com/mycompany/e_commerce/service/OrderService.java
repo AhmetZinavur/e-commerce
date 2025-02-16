@@ -39,7 +39,7 @@ public class OrderService {
                 OrderDetail.builder()
                 .order(order)
                 .product(product)
-                .price(product.getPrice())
+                .unitPrice(product.getPrice())
                 .store(store)
                 .quantity(createOrderRequest.getQuantity())
                 .createAt(LocalDateTime.now().toString())
