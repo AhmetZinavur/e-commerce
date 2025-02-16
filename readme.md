@@ -93,6 +93,10 @@ This is a demo project for an e-commerce application built using Spring Boot. Th
 - **Delete Store For Admin**: 'DELETE /stores/delete-store-for-admin'
 - **Approve Order**: `PUT /stores/approve-order`
 
+### Product Endpoints
+
+- **Get All Products**: 'GET /products/get-all-products'
+
 ## Configuration
 
 The application configuration is managed in the application.properties file located in resources. Key configurations include:
