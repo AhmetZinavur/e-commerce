@@ -28,6 +28,7 @@ This is a demo project for an e-commerce application built using Spring Boot. Th
 - Lombok
 - Auth0
 - Maven
+- Swagger
 
 ## Getting Started
 
@@ -61,7 +62,10 @@ This is a demo project for an e-commerce application built using Spring Boot. Th
     ```sh
     mvn spring-boot:run
     ```
-
+5. Open your favorite web browser and paste it
+   ```
+   http://localhost:8080/swagger-ui/index.html
+   ```
 ## API Endpoints
 
 ### User Endpoints
