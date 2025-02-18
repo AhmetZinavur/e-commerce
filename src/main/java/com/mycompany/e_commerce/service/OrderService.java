@@ -31,13 +31,14 @@ public class OrderService {
     private final OrderDetailService orderDetailService;
     private final ProductService productService;
     private final UserService userService;
+    private final StoreService storeService;
     private final JWTManager jwtManager;
 
     @Transactional
     public void createOrder(String token, CreateOrderRequest createOrderRequest) {
         User user = userService.getUserById(jwtManager.getUserIdFromToken(token));
         Product product = productService.getProductById(createOrderRequest.getProductId());
-        Store store = Store.builder().id(createOrderRequest.getStoreId()).build();
+        Store store = storeService.getStoreById(createOrderRequest.getStoreId());
         if (createOrderRequest.getQuantity() > product.getStock()) {
             throw new InsuficientStockException(CustomeException.INSUFICIENT_STOCK);
         }

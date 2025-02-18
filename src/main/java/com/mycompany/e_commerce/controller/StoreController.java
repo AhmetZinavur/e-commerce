@@ -11,16 +11,11 @@ import com.mycompany.e_commerce.dto.request.product.UpdateProductNameRequest;
 import com.mycompany.e_commerce.dto.request.product.UpdateProductPriceRequest;
 import com.mycompany.e_commerce.dto.request.product.UpdateProductStockRequest;
 import com.mycompany.e_commerce.dto.request.store.AddNewStoreRequest;
-import com.mycompany.e_commerce.dto.response.product.ProductSalesResponse;
-import com.mycompany.e_commerce.entity.Store;
 import com.mycompany.e_commerce.service.StoreService;
 
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
