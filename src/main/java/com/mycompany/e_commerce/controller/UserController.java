@@ -57,25 +57,10 @@ public class UserController {
     @PostMapping("/login")
     public String login(@RequestBody LoginRequest loginRequest) {
         return userService.login(loginRequest);
-    }
-
-    @PostMapping("/create-order")
-    public void createOrder(String token, @RequestBody CreateOrderRequest order) {
-        userService.createOrder(token, order);
-    }
+    }   
 
     @DeleteMapping("/delete-admin")
     public void deleteAdmin(String token, Long id) {
         userService.deleteAdmin(token, id);
-    }
-
-    @GetMapping("/get-total-sales-for-today-for-admin")
-    public Double getTotalSalesForToday(String token, Long storeId) {
-        return userService.getTotalSalesForToday(token, storeId);
-    }
-
-    @GetMapping("/get-total-sales-for-all-stores-for-today-for-admin")
-    public Double getTotalSalesForAllStoresForToday(String token) {
-        return userService.getTotalSalesForAllStoresForToday(token);
     }
 }

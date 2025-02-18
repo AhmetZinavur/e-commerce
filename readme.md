@@ -76,10 +76,7 @@ This is a demo project for an e-commerce application built using Spring Boot. Th
 - **Update Customer**: `PUT /users/update-customer`
 - **Update Admin**: `PUT /users/update-admin`
 - **Login**: `POST /users/login`
-- **Create Order**: `POST /users/create-order`
 - **Delete Admin**: `DELETE /users/delete-admin`
-- **Get Total Sales for Today**: `GET /users/get-total-sales-for-today-for-admin`
-- **Get Total Sales for All Stores for Today**: `GET /users/get-total-sales-for-all-stores-for-today-for-admin`
 
 ### Store Endpoints
 
@@ -88,10 +85,16 @@ This is a demo project for an e-commerce application built using Spring Boot. Th
 - **Update Product Name**: `PUT /stores/update-product-name`
 - **Update Product Price**: `PUT /stores/update-product-price`
 - **Update Product Stock**: `PUT /stores/update-product-stock`
-- **Get Store Info for Admin**: `GET /stores/get-store-info-for-admin`
-- **Create Store For Admin**: 'POST /stores/create-store-for-admin'
-- **Delete Store For Admin**: 'DELETE /stores/delete-store-for-admin'
-- **Approve Order**: `PUT /stores/approve-order`
+- **Create Store For Admin**: `POST /stores/create-store-for-admin`
+- **Delete Store For Admin**: `DELETE /stores/delete-store-for-admin`
+
+### Order Endpoints
+
+- **Create Order**: `POST /orders/create-order`
+- **Approve Order**: `PUT /orders/approve-order`
+- **Get Total Sales for Today**: `GET /orders/get-total-sales-for-today-for-admin`
+- **Get Total Sales for All Stores for Today**: `GET /orders/get-total-sales-for-all-stores-for-today-for-admin`
+- **Get Monthly Sales Info for Admin**: `GET /orders/get-store-monthly-sales-info`
 
 ## Configuration
 

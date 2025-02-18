@@ -10,6 +10,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.mycompany.e_commerce.exception.customexception.CustomeException;
+import com.mycompany.e_commerce.exception.customexception.TokenInvalidException;
 import com.auth0.jwt.JWTVerifier;
 
 @Component
@@ -22,11 +24,11 @@ public class JWTManager {
     public String generateToken(Long id) {
         try {
             return JWT.create()
-                .withClaim("id", id)
-                .withIssuer("mycompany.com")
-                .withIssuedAt(new Date())
-                .withExpiresAt(new Date(System.currentTimeMillis() + duration))
-                .sign(Algorithm.HMAC512(secretKey));
+                    .withClaim("id", id)
+                    .withIssuer("mycompany.com")
+                    .withIssuedAt(new Date())
+                    .withExpiresAt(new Date(System.currentTimeMillis() + duration))
+                    .sign(Algorithm.HMAC512(secretKey));
         } catch (Exception e) {
             e.getMessage();
             return null;
@@ -44,5 +46,10 @@ public class JWTManager {
             e.getMessage();
         }
         return Optional.empty();
+    }
+
+    public Long getUserIdFromToken(String token) {
+        return validToken(token)
+                .orElseThrow(() -> new TokenInvalidException(CustomeException.TOKEN_INVALID));
     }
 }

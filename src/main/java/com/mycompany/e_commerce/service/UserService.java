@@ -9,7 +9,6 @@ import com.mycompany.e_commerce.dto.request.admin.AdminRegisterRequest;
 import com.mycompany.e_commerce.dto.request.admin.AdminUpdateRequest;
 import com.mycompany.e_commerce.dto.request.customer.CustomerRegisterRequest;
 import com.mycompany.e_commerce.dto.request.customer.CustomerUpdateRequest;
-import com.mycompany.e_commerce.dto.request.order.CreateOrderRequest;
 import com.mycompany.e_commerce.dto.request.storeowner.StoreOwnerRegisterRequest;
 import com.mycompany.e_commerce.dto.request.user.LoginRequest;
 import com.mycompany.e_commerce.dto.response.admin.AdminCreateResponse;
@@ -18,7 +17,6 @@ import com.mycompany.e_commerce.dto.response.storeowner.StoreOwnerCreateResponse
 import com.mycompany.e_commerce.entity.User;
 import com.mycompany.e_commerce.entity.enums.Role;
 import com.mycompany.e_commerce.exception.customexception.CustomeException;
-import com.mycompany.e_commerce.exception.customexception.TokenInvalidException;
 import com.mycompany.e_commerce.exception.customexception.UnauthorizedAccessException;
 import com.mycompany.e_commerce.exception.customexception.UserAlreadyExistException;
 import com.mycompany.e_commerce.exception.customexception.UserNameOrPasswordWrongException;
@@ -33,7 +31,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final OrderService orderService;
     private final JWTManager jwtManager;
 
     @Transactional
@@ -106,12 +103,6 @@ public class UserService {
         return jwtManager.generateToken(user.getId());
     }
 
-    @Transactional
-    public void createOrder(String token, CreateOrderRequest createOrderRequest) {
-        User user = getUserById(getUserIdFromToken(token));
-        orderService.createOrder(user, createOrderRequest);
-    }
-
     protected User getUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(CustomeException.USER_NOT_FOUND));
@@ -123,7 +114,7 @@ public class UserService {
 
     @Transactional
     public void updateCustomer(String token, CustomerUpdateRequest customer) {
-        Long id = getUserIdFromToken(token);
+        Long id = jwtManager.getUserIdFromToken(token);
         User currentUser = getUserById(customer.getId());
         if (id == currentUser.getId()) {
             currentUser.setEmail(customer.getEmail());
@@ -141,7 +132,7 @@ public class UserService {
 
     @Transactional
     public void updateAdmin(String token, AdminUpdateRequest admin) {
-        Long id = getUserIdFromToken(token);
+        Long id = jwtManager.getUserIdFromToken(token);
         User currentUser = getUserById(admin.getId());
         if (id == currentUser.getId()) {
             currentUser.setEmail(admin.getEmail());
@@ -158,34 +149,11 @@ public class UserService {
 
     @Transactional
     public void deleteAdmin(String token, Long id) {
-        User user = getUserById(getUserIdFromToken(token));
+        User user = getUserById(jwtManager.getUserIdFromToken(token));
         if (user.getRole().equals(Role.ADMIN.toString()) && !user.getId().equals(id)) {
             userRepository.deleteById(id);
         } else {
             throw new UnauthorizedAccessException(CustomeException.UNAUTHORIZED_ACCESS);
         }
-    }
-
-    public Double getTotalSalesForToday(String token, Long storeId) {
-        User user = getUserById(getUserIdFromToken(token));
-        if (user.getRole().equals(Role.ADMIN.toString())) {
-            return orderService.getTotalSalesForToday(storeId);
-        } else {
-            return 0.0;
-        }
-    }
-
-    public Double getTotalSalesForAllStoresForToday(String token) {
-        User user = getUserById(getUserIdFromToken(token));
-        if (user.getRole().equals(Role.ADMIN.toString())) {
-            return orderService.getTotalSalesForAllStoresForToday(token);
-        } else {
-            return 0.0;
-        }
-    }
-
-    private Long getUserIdFromToken(String token) {
-        return jwtManager.validToken(token)
-                .orElseThrow(() -> new TokenInvalidException(CustomeException.TOKEN_INVALID));
     }
 }
