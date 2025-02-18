@@ -96,6 +96,10 @@ This is a demo project for an e-commerce application built using Spring Boot. Th
 - **Get Total Sales for All Stores for Today**: `GET /orders/get-total-sales-for-all-stores-for-today-for-admin`
 - **Get Monthly Sales Info for Admin**: `GET /orders/get-store-monthly-sales-info`
 
+### Product Endpoints
+
+- **Get All Products**: `GET /products/get-all-products`
+
 ## Configuration
 
 The application configuration is managed in the application.properties file located in resources. Key configurations include:
